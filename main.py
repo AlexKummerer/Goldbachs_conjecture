@@ -13,18 +13,22 @@ def is_prime(n):
 
 
 def sieve_of_eratosthenes(limit):
-    """Generate a list of prime numbers up to the given limit."""
-    is_prime = [True] * (limit + 1) # Assume all numbers up to limit are prime
+    """Generate a list of prime numbers up to the given limit using the Sieve of Eratosthenes algorithm."""
+    is_prime = [True] * (limit + 1)  # Assume all numbers up to limit are prime
     p = 2
     while p * p <= limit:
         if is_prime[p]:
             for i in range(p * p, limit + 1, p):
-                is_prime[i] = False # Mark multiples of p as not prime
+                is_prime[i] = False  # Mark multiples of p as not prime
         p += 1
     return [p for p in range(2, limit + 1) if is_prime[p]]  # Return all primes
 
 
 def get_prime_pairs(number):
+    """
+    Find pairs of prime numbers that sum up to the given number.
+    Returns a list of tuples, each containing a pair of prime numbers.
+    """
     if number % 2 == 1 and number != 2:
         return []  # Odd numbers (except 2) can't be written as the sum of two primes
     primes = sieve_of_eratosthenes(number)
@@ -34,21 +38,21 @@ def get_prime_pairs(number):
         complement = number - prime
         if complement >= prime and is_prime(complement):
             sum_of_two_primes.add((prime, complement))
-    if not sum_of_two_primes:
-        print(f"No pairs of primes found that sum to {number}.")
-    else:
-        return sum_of_two_primes
+
+    return sum_of_two_primes
 
 
 def print_prime_pairs(number, prime_pairs):
-    """Prints the prime pairs in a readable format."""
+    """Print the pairs of prime numbers that sum up to the given number."""
     if not prime_pairs:
         print(f"No pairs of primes found that sum to {number}.")
     else:
         for pair in prime_pairs:
             print(f"The number {number} equals the sum of {pair[0]} and {pair[1]}.")
 
+
 def main():
+    """Main function to prompt user input and display prime pairs that sum to the input number."""
     while True:
         try:
             number = int(input("Enter a number:"))
